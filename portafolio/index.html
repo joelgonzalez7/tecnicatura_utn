@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Joel | Desarrollador Full Stack</title>
+  <title>Joel González | Desarrollador Full Stack</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
@@ -31,7 +31,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      position: relative;
       padding: 20px;
     }
 
@@ -98,7 +97,6 @@
       }
     }
 
-    /* Animaciones generales */
     @keyframes slideIn {
       0% { transform: translateY(-50px); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
@@ -148,6 +146,17 @@
       background: #2b2b2b;
     }
 
+    /* 🎸 Estilo para la cuerda */
+    #stringCanvas {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
     @media (max-width: 600px) {
       .hero h1 {
         font-size: 3rem;
@@ -160,7 +169,7 @@
 </head>
 <body>
   <section class="hero">
-    <h1>Joel</h1>
+    <h1>Joel González</h1>
     <p>Desarrollador Full Stack apasionado por el código y la música 🎧</p>
     <div class="music-icon">
       <i class="fas fa-music"></i>
@@ -180,25 +189,85 @@
     <div class="blog-post">📚 Aprendé todos los días, aunque sea una línea más.</div>
   </section>
 
+  <!-- 🎸 Cuerda visual -->
+  <canvas id="stringCanvas"></canvas>
+
   <script>
+    // 🎶 Green Greens simplificada (en Hz)
+    const melody = [
+      392.00, 440.00, 523.25, 440.00,
+      392.00, 440.00, 523.25, 440.00,
+      392.00, 440.00, 523.25, 587.33,
+      523.25, 440.00, 392.00
+    ];
+    let currentNoteIndex = 0;
+
+    function playNote(frequency) {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = 'triangle';
+      oscillator.frequency.value = frequency;
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.3);
+    }
+
+    // 🎸 Animación de la cuerda
+    const canvas = document.getElementById('stringCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = canvas.clientHeight;
+    let wave = 0;
+    let amplitude = 0;
+
+    function drawString() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.beginPath();
+      ctx.moveTo(0, height / 2);
+      for (let x = 0; x < width; x++) {
+        const y = height / 2 + Math.sin(x * 0.02 + wave) * amplitude;
+        ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = '#00eaff';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      wave += 0.1;
+      amplitude *= 0.98; // Damping (reduce la vibración suavemente)
+      requestAnimationFrame(drawString);
+    }
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = canvas.clientHeight;
+    });
+
+    drawString();
+
+    // 🎼 Efecto visual y sonido por clic
     document.addEventListener('click', (e) => {
+      // Nota flotante animada
       const note = document.createElement('div');
       note.classList.add('note');
-
-      // Lista de símbolos musicales
       const symbols = ['♪', '♩', '♫', '♬', '🎶', '🎵'];
       note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-
-      // Posición inicial
       note.style.left = `${e.clientX}px`;
       note.style.top = `${e.clientY}px`;
       note.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
       note.style.transform = `rotate(${Math.random() * 360}deg)`;
-
       document.body.appendChild(note);
-
-      // Remover después de la animación
       setTimeout(() => note.remove(), 2500);
+
+      // Reproduce la nota actual de la melodía
+      playNote(melody[currentNoteIndex]);
+      currentNoteIndex = (currentNoteIndex + 1) % melody.length;
+
+      // Activa la vibración de la cuerda
+      amplitude = 20;
     });
   </script>
 </body>
