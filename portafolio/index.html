@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Joel | Desarrollador Full Stack</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --color-acento: #00eaff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      animation: slideIn 2s ease forwards;
+      z-index: 2;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #ccc;
+      animation: fadeIn 3s ease-in-out;
+      z-index: 2;
+    }
+
+    .music-icon {
+      font-size: 2rem;
+      color: var(--color-acento);
+      margin-top: 20px;
+      animation: pulse 2s infinite;
+      z-index: 2;
+    }
+
+    .contact-icons {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      animation: fadeInUp 2.5s ease-in-out;
+      z-index: 2;
+    }
+
+    .contact-icons a {
+      color: white;
+      font-size: 1.8rem;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .contact-icons a:hover {
+      transform: scale(1.2);
+      color: var(--color-acento);
+    }
+
+    .note {
+      position: absolute;
+      font-size: 1.5rem;
+      color: var(--color-acento);
+      animation: floatUp 2.5s forwards ease-out;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-150px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* Animaciones generales */
+    @keyframes slideIn {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); color: #80ffff; }
+    }
+
+    @keyframes fadeInUp {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .blog-section {
+      background: #111;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .blog-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+    }
+
+    .blog-post {
+      background: #1c1c1c;
+      color: #ccc;
+      max-width: 700px;
+      margin: 10px 0;
+      padding: 20px;
+      border-left: 5px solid var(--color-acento);
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .blog-post:hover {
+      transform: translateX(10px);
+      background: #2b2b2b;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Joel</h1>
+    <p>Desarrollador Full Stack apasionado por el código y la música 🎧</p>
+    <div class="music-icon">
+      <i class="fas fa-music"></i>
+    </div>
+    <div class="contact-icons">
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+      <a href="mailto:joel@example.com"><i class="fas fa-envelope"></i></a>
+    </div>
+  </section>
+
+  <section class="blog-section" id="blog">
+    <h2>Blog de Reflexiones</h2>
+    <div class="blog-post">💻 A veces, el mejor código es el que no se escribe.</div>
+    <div class="blog-post">🎷 Mientras programo, escucho jazz... el ritmo me guía.</div>
+    <div class="blog-post">🌌 El backend es el universo; el frontend, la constelación que lo revela.</div>
+    <div class="blog-post">📚 Aprendé todos los días, aunque sea una línea más.</div>
+  </section>
+
+  <script>
+    document.addEventListener('click', (e) => {
+      const note = document.createElement('div');
+      note.classList.add('note');
+
+      // Lista de símbolos musicales
+      const symbols = ['♪', '♩', '♫', '♬', '🎶', '🎵'];
+      note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      // Posición inicial
+      note.style.left = `${e.clientX}px`;
+      note.style.top = `${e.clientY}px`;
+      note.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+      note.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+      document.body.appendChild(note);
+
+      // Remover después de la animación
+      setTimeout(() => note.remove(), 2500);
+    });
+  </script>
+</body>
+</html>
