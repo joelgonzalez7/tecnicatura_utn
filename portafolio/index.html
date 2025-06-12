@@ -1,274 +1,375 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Joel González | Desarrollador Full Stack</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JAJACKERS | Portafolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    :root {
-      --color-acento: #00eaff;
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: #0f0f0f;
+      color: #00ff99;
+      overflow-x: hidden;
     }
 
-    * {
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f0f0f;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #00ff99;
+      border-radius: 6px;
+      box-shadow: 0 0 10px #00ff99;
+    }
+
+    #navbar {
+      position: sticky;
+      top: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 1rem 2rem;
+      z-index: 9999;
+      border-bottom: 1px solid #00ff99;
+      box-shadow: 0 2px 15px rgba(0, 255, 153, 0.2);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #00ff99;
+      text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+      animation: glitch 1s infinite;
+      cursor: default;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
-      color: white;
-      overflow-x: hidden;
+    .nav-links li a {
+      color: #00ff99;
+      text-decoration: none;
+      font-weight: bold;
       position: relative;
-    }
-
-    .hero {
-      min-height: 100vh;
+      padding: 0.3rem 0.5rem;
+      transition: all 0.3s ease;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
+      gap: 0.3rem;
     }
 
-    .hero h1 {
-      font-size: 4rem;
-      margin-bottom: 10px;
-      animation: slideIn 2s ease forwards;
-      z-index: 2;
-    }
-
-    .hero p {
-      font-size: 1.3rem;
-      color: #ccc;
-      animation: fadeIn 3s ease-in-out;
-      z-index: 2;
-    }
-
-    .music-icon {
-      font-size: 2rem;
-      color: var(--color-acento);
-      margin-top: 20px;
-      animation: pulse 2s infinite;
-      z-index: 2;
-    }
-
-    .contact-icons {
-      margin-top: 40px;
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      animation: fadeInUp 2.5s ease-in-out;
-      z-index: 2;
-    }
-
-    .contact-icons a {
-      color: white;
-      font-size: 1.8rem;
-      transition: transform 0.3s ease, color 0.3s ease;
-    }
-
-    .contact-icons a:hover {
-      transform: scale(1.2);
-      color: var(--color-acento);
-    }
-
-    .note {
+    .nav-links li a::after {
+      content: '';
       position: absolute;
-      font-size: 1.5rem;
-      color: var(--color-acento);
-      animation: floatUp 2.5s forwards ease-out;
-      pointer-events: none;
-      user-select: none;
-      opacity: 0.8;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #00ff99;
+      transition: width 0.3s ease;
     }
 
-    @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.9;
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links li a:hover {
+      color: #0f0;
+      text-shadow: 0 0 5px #0f0, 0 0 20px #00ff99;
+      transform: scale(1.05);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 2rem;
+      color: #00ff99;
+      cursor: pointer;
+    }
+
+    #toggle-menu {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: rgba(0, 0, 0, 0.85);
+        flex-direction: column;
+        width: 220px;
+        display: none;
+        border-left: 2px solid #00ff99;
+        box-shadow: -2px 0 20px rgba(0, 255, 153, 0.4);
       }
-      100% {
-        transform: translateY(-150px) scale(1.5);
+
+      #toggle-menu:checked ~ .nav-links {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+
+    #loader-text {
+      color: #00ff99;
+      font-size: 1.5rem;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+      }
+
+      50% {
         opacity: 0;
       }
     }
 
-    @keyframes slideIn {
-      0% { transform: translateY(-50px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); color: #80ffff; }
-    }
-
-    @keyframes fadeInUp {
-      0% { transform: translateY(30px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-
-    .blog-section {
-      background: #111;
-      padding: 60px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .blog-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-    }
-
-    .blog-post {
-      background: #1c1c1c;
-      color: #ccc;
-      max-width: 700px;
-      margin: 10px 0;
-      padding: 20px;
-      border-left: 5px solid var(--color-acento);
-      border-radius: 8px;
-      transition: transform 0.3s ease;
-    }
-
-    .blog-post:hover {
-      transform: translateX(10px);
-      background: #2b2b2b;
-    }
-
-    /* 🎸 Estilo para la cuerda */
-    #stringCanvas {
+    canvas#matrix {
       position: fixed;
-      bottom: 0;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 100px;
-      pointer-events: none;
-      z-index: 1;
+      height: 100%;
+      z-index: -1;
+      background: black;
     }
 
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 3rem;
+    header {
+      padding: 2rem;
+      text-align: center;
+      animation: glitch 2s infinite alternate;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+      color: #88ffcc;
+    }
+
+    .glow {
+      text-shadow: 0 0 8px #00ff99, 0 0 20px #00ff99, 0 0 30px #00ff99;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: white;
+      background-color: #0f0f0f;
+      border-top: 1px solid #00ff99;
+    }
+
+    .integrantes,
+    .lenguajes,
+    .proyectos {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .integrantes li,
+    .proyecto {
+      background: #1c1c1c;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-left: 5px solid #00ff99;
+      transition: transform 0.2s;
+      border-radius: 5px;
+    }
+
+    .integrantes li:hover,
+    .proyecto:hover {
+      transform: translateX(5px);
+      background: #222;
+    }
+
+    .estado {
+      color: #ffcc00;
+      font-weight: bold;
+    }
+
+    .lenguajes i {
+      font-size: 2.5rem;
+      margin: 0.7rem;
+      color: #00ff99;
+      transition: transform 0.3s, text-shadow 0.3s;
+    }
+
+    .lenguajes i:hover {
+      transform: scale(1.3);
+      text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+    }
+
+    @keyframes glitch {
+      0% {
+        text-shadow: 2px 0 red, -2px 0 blue;
       }
-      .hero p {
-        font-size: 1rem;
+
+      20% {
+        text-shadow: -2px 0 red, 2px 0 blue;
+      }
+
+      40% {
+        text-shadow: 2px 2px red, -2px -2px blue;
+      }
+
+      60% {
+        text-shadow: -2px 2px red, 2px -2px blue;
+      }
+
+      80% {
+        text-shadow: 2px -2px red, -2px 2px blue;
+      }
+
+      100% {
+        text-shadow: 0 0 #00ff99;
       }
     }
   </style>
 </head>
+
 <body>
-  <section class="hero">
-    <h1>Joel González</h1>
-    <p>Desarrollador Full Stack apasionado por el código y la música 🎧</p>
-    <div class="music-icon">
-      <i class="fas fa-music"></i>
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <span class="logo">[JAJACKERS]</span>
+      <input type="checkbox" id="toggle-menu" />
+      <label for="toggle-menu" class="hamburger">&#9776;</label>
+      <ul class="nav-links">
+        <li><a href="#integrantes"><i class="fas fa-users"></i> Integrantes</a></li>
+        <li><a href="#lenguajes"><i class="fas fa-code"></i> Lenguajes</a></li>
+        <li><a href="#proyectos"><i class="fas fa-terminal"></i> Proyectos</a></li>
+      </ul>
     </div>
-    <div class="contact-icons">
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-github"></i></a>
-      <a href="mailto:joel@example.com"><i class="fas fa-envelope"></i></a>
+  </nav>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div id="loader-text">[ CARGANDO EL MUNDO HACKER... ]</div>
+  </div>
+
+  <canvas id="matrix"></canvas>
+
+  <header class="glow">
+    <h1>JAJACKERS</h1>
+    <h2>Hackear y romper código es nuestra diversión</h2>
+  </header>
+
+  <section id="integrantes" class="integrantes">
+    <h3>Integrantes del equipo:</h3>
+    <ul>
+      <li><a href="./Joel/Joel.html" style="color: #00ff99; text-decoration: none;">González, Joel Alexander</a></li>
+      <li>Guevara, Micaela Magalí</li>
+      <li>Molina, Ivana Daniela</li>
+      <li>Castro, Esteban Leandro Ezequias</li>
+      <li>Pérez, Jimena Karin</li>
+      <li>Aramayo, Micaela Cynthia</li>
+      <li>Lepez Castro, Orlando Jesus</li>
+    </ul>
+  </section>
+
+  <section id="lenguajes" class="lenguajes">
+    <h3>Lenguajes del equipo</h3>
+    <div>
+      <i class="fab fa-html5" title="HTML5 - Estructuramos el caos"></i>
+      <i class="fab fa-css3-alt" title="CSS3 - Hacemos que se vea facherito"></i>
+      <i class="fab fa-js-square" title="JavaScript - El caos en forma de lenguaje"></i>
+      <i class="fab fa-java" title="Java - Porque no todo puede ser divertido"></i>
+      <i class="fab fa-python" title="Python - Simple, elegante y con mordida"></i>
     </div>
   </section>
 
-  <section class="blog-section" id="blog">
-    <h2>Blog de Reflexiones</h2>
-    <div class="blog-post">💻 A veces, el mejor código es el que no se escribe.</div>
-    <div class="blog-post">🎷 Mientras programo, escucho jazz... el ritmo me guía.</div>
-    <div class="blog-post">🌌 El backend es el universo; el frontend, la constelación que lo revela.</div>
-    <div class="blog-post">📚 Aprendé todos los días, aunque sea una línea más.</div>
+  <section id="proyectos" class="proyectos">
+    <h3 style="text-align:center;">Proyectos</h3>
+    <div class="proyecto">
+      <h4>🔒 Proyecto Ultra Secreto</h4>
+      <p>Clasificado nivel: <strong>No apto para curiosos</strong></p>
+      <p>Podríamos contarte más, pero luego tendríamos que formatearte la PC...</p>
+      <p class="estado">Estado: En Progreso 🛠️ (Sí, seguimos tomando mate)</p>
+    </div>
   </section>
 
-  <!-- 🎸 Cuerda visual -->
-  <canvas id="stringCanvas"></canvas>
+  <footer>
+    <p>© 2025 JAJACKERS</p>
+    <p style="margin-top: 0.5rem;">✅ Aprobado por Anonymous</p>
+  </footer>
 
   <script>
-    // 🎶 Green Greens simplificada (en Hz)
-    const melody = [
-      392.00, 440.00, 523.25, 440.00,
-      392.00, 440.00, 523.25, 440.00,
-      392.00, 440.00, 523.25, 587.33,
-      523.25, 440.00, 392.00
-    ];
-    let currentNoteIndex = 0;
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 1500);
+    });
 
-    function playNote(frequency) {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-
-      oscillator.type = 'triangle';
-      oscillator.frequency.value = frequency;
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-
-      gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 0.3);
-    }
-
-    // 🎸 Animación de la cuerda
-    const canvas = document.getElementById('stringCanvas');
+    const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = canvas.clientHeight;
-    let wave = 0;
-    let amplitude = 0;
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
 
-    function drawString() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.beginPath();
-      ctx.moveTo(0, height / 2);
-      for (let x = 0; x < width; x++) {
-        const y = height / 2 + Math.sin(x * 0.02 + wave) * amplitude;
-        ctx.lineTo(x, y);
+    const letters = Array(256).join("1").split("");
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#0f0';
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
       }
-      ctx.strokeStyle = '#00eaff';
-      ctx.lineWidth = 3;
-      ctx.stroke();
-      wave += 0.1;
-      amplitude *= 0.98; // Damping (reduce la vibración suavemente)
-      requestAnimationFrame(drawString);
     }
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = canvas.clientHeight;
-    });
-
-    drawString();
-
-    // 🎼 Efecto visual y sonido por clic
-    document.addEventListener('click', (e) => {
-      // Nota flotante animada
-      const note = document.createElement('div');
-      note.classList.add('note');
-      const symbols = ['♪', '♩', '♫', '♬', '🎶', '🎵'];
-      note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      note.style.left = `${e.clientX}px`;
-      note.style.top = `${e.clientY}px`;
-      note.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
-      note.style.transform = `rotate(${Math.random() * 360}deg)`;
-      document.body.appendChild(note);
-      setTimeout(() => note.remove(), 2500);
-
-      // Reproduce la nota actual de la melodía
-      playNote(melody[currentNoteIndex]);
-      currentNoteIndex = (currentNoteIndex + 1) % melody.length;
-
-      // Activa la vibración de la cuerda
-      amplitude = 20;
-    });
+    setInterval(draw, 33);
   </script>
 </body>
+
 </html>
